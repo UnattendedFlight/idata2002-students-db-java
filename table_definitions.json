@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "tables": [
+    {
+      "name": "students",
+      "pk": "id",
+      "definitions": {
+        "id": {
+          "constraints": {
+            "unique": true,
+            "pk": true,
+            "not_null": true
+          },
+          "type": "int"
+        },
+        "name": {
+          "constraints": {
+            "not_null": true
+          },
+          "type": "varchar"
+        },
+        "email": {
+          "constraints": {
+            "not_null": true,
+            "unique": true
+          },
+          "type": "varchar"
+        },
+        "phone": {
+          "constraints": {
+            "not_null": true,
+            "unique": true,
+            "length": 8
+          },
+          "type": "varchar"
+        }
+      },
+      "indices": {
+        "email_id_idx": {
+        },
+        "phone_id_idx": {
+        },
+        "name_id_idx": {
+        }
+      },
+      "data": {
+      }
+    },
+    {
+      "name": "courses",
+      "pk": "id",
+      "definitions": {
+        "id": {
+          "constraints": {
+            "unique": true,
+            "pk": true,
+            "not_null": true
+          },
+          "type": "int"
+        },
+        "name": {
+          "constraints": {
+            "not_null": true,
+            "unique": true
+          },
+          "type": "varchar"
+        }
+      },
+      "indices": {
+        "name_id_idx": {}
+      },
+      "data": {}
+    },
+    {
+      "name": "course_enrollments",
+      "pk": "id",
+      "definitions": {
+        "id": {
+          "constraints": {
+            "unique": true,
+            "pk": true,
+            "not_null": true
+          },
+          "type": "int"
+        },
+        "course_id": {
+          "constraints": {
+            "not_null": true,
+            "fk": {
+              "table": "course",
+              "column": "id"
+            }
+          },
+          "type": "int"
+        },
+        "student_id": {
+          "constraints": {
+            "not_null": true,
+            "fk": {
+              "table": "students",
+              "column": "id"
+            }
+          },
+          "type": "int"
+        }
+      },
+      "indices": {},
+      "data": {}
+    }
+  ]
+}
