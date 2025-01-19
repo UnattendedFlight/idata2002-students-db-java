@@ -220,6 +220,18 @@ public abstract class BaseService<T> {
     }
   }
 
+  protected void validateRecord(T record) throws DatabaseException {
+    Map<String, Object> recordMap = this.objectMapper.convertValue(record, Map.class);
+    try {
+      // Validate field constraints
+      TableConstraints.validateRecord(getTableName(), recordMap);
+      // Validate unique constraints
+      this.validateUniqueConstraints(record, null);
+    } catch (IllegalArgumentException e) {
+      throw new DatabaseException(e.getMessage());
+    }
+  }
+
   /**
    * Updates the indices map with the given record and its corresponding ID.
    * The method dynamically updates the index entries for each field of the
@@ -330,7 +342,7 @@ public abstract class BaseService<T> {
    * @throws DatabaseException if any error occurs during the creation process, such as a unique constraint violation
    */
   public T create(T record) throws DatabaseException {
-    this.validateUniqueConstraints(record, null);
+    this.validateRecord(record);
 
     int recordId = this.getNextId();
     Map<String, Object> recordMap = this.objectMapper.convertValue(record, Map.class);
@@ -436,6 +448,7 @@ public abstract class BaseService<T> {
       throw new RecordNotFoundException("Record with ID " + recordId + " not found");
     }
 
+    this.validateRecord(record);
     this.validateUniqueConstraints(record, recordId);
     this.removeFromIndices(recordId);
     this.getDataMap().put(String.valueOf(recordId), recordMap);

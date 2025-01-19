@@ -46,4 +46,29 @@ public class CourseEnrollmentService extends BaseService<CourseEnrollment> {
   public List<CourseEnrollment> getByCourse(int courseId) throws DatabaseException {
     return this.getByField("course_id", courseId);
   }
+
+  public void enrollStudent(int studentId, int courseId) throws DatabaseException {
+    CourseEnrollment enrollment = new CourseEnrollment(0, studentId, courseId, 0);
+
+    // no unique_together in this table, or rather not implemented yet, so we need to check if the enrollment already exists
+    if (this.getByStudent(studentId).stream().anyMatch(e -> e.getCourseId() == courseId)) {
+      throw new DatabaseException("Student is already enrolled in this course");
+    }
+    this.create(enrollment);
+  }
+
+  public void setGrade(int studentId, int courseId, int grade) throws DatabaseException {
+    List<CourseEnrollment> enrollments = this.getByStudent(studentId);
+    CourseEnrollment enrollment = enrollments.stream()
+        .filter(e -> e.getCourseId() == courseId)
+        .findFirst()
+        .orElse(null);
+
+    if (enrollment == null) {
+      throw new DatabaseException("Student is not enrolled in this course, enroll first using 'enroll-student'");
+    }
+
+    enrollment.setGrade(grade);
+    this.update(enrollment);
+  }
 }
