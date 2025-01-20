@@ -6,6 +6,7 @@ import no.leo.studentmanager.commands.AddStudentCommand;
 import no.leo.studentmanager.commands.Command;
 import no.leo.studentmanager.commands.CommandRegistry;
 import no.leo.studentmanager.commands.EnrollStudentCommand;
+import no.leo.studentmanager.commands.GetEnrollmentCommand;
 import no.leo.studentmanager.commands.HelpCommand;
 import no.leo.studentmanager.commands.ListCoursesCommand;
 import no.leo.studentmanager.commands.ListEnrollmentsCommand;
@@ -48,7 +49,8 @@ public class REPL {
         studentService, courseService, enrollmentService, analytics));
     registry.registerCommand("course:grade:set", new SetCourseGradeCommand(
         studentService, courseService, enrollmentService, analytics));
-
+    registry.registerCommand("enrollment:get", new GetEnrollmentCommand(
+        studentService, courseService, enrollmentService, analytics));
   }
 
   public void start() {

@@ -6,4 +6,6 @@ public interface Command {
   String getUsage();
 
   void setRuntimeCommandString(String name);
+
+  String getRuntimeCommandString();
 }

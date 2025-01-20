@@ -1,6 +1,8 @@
 package no.leo.studentmanager.commands;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +22,10 @@ public class CommandRegistry {
     return commands.keySet();
   }
 
-  public Map<String, Command> getAllCommands() {
-    return new HashMap<>(commands);
+  public List<Command> getAllCommands() {
+    return commands.values().stream()
+        // Sort by runtime command
+        .sorted(Comparator.comparing(Command::getRuntimeCommandString))
+        .toList();
   }
 }

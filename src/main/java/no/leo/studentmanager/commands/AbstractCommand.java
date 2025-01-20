@@ -26,4 +26,8 @@ public abstract class AbstractCommand implements Command {
   public void setRuntimeCommandString(String runtimeCommandString) {
     this.runtimeCommandString = runtimeCommandString;
   }
+
+  public String getRuntimeCommandString() {
+    return this.runtimeCommandString;
+  }
 }

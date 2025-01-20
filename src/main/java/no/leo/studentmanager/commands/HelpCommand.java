@@ -11,8 +11,8 @@ public class HelpCommand implements Command {
   @Override
   public void execute(String[] args) {
     System.out.println("Available commands:");
-    registry.getAllCommands().forEach((name, command) ->
-        System.out.printf("  %-20s - %s%n", name, command.getDescription()));
+    registry.getAllCommands().forEach((command) ->
+        System.out.printf("  %-20s - %s%n", command.getRuntimeCommandString(), command.getDescription()));
     System.out.println("\nType '<command> help' for detailed usage information.");
   }
 
@@ -29,5 +29,10 @@ public class HelpCommand implements Command {
   @Override
   public void setRuntimeCommandString(String name) {
     this.runtimeCommandString = name;
+  }
+
+  @Override
+  public String getRuntimeCommandString() {
+    return this.runtimeCommandString;
   }
 }
